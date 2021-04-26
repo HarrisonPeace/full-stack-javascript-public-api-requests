@@ -22,7 +22,7 @@ document.querySelector('.search-container').insertAdjacentHTML('beforeend', sear
  *  Search Bar Function
  */
 function search(event) {
-	event.preventDefault()
+	event.preventDefault();
   // Declare variables
   let input, filter, employee, searchCritera;
   input = document.getElementById('search-input');
