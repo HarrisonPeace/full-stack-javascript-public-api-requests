@@ -11,9 +11,9 @@ let currentEmployeeIndex = 0;
 ---------------------------------  Search Bar  -----------------------------
 ============================================================================*/
 const search_bar = `
-	<form action="#" method="get" onsubmit="search()">
-        <input type="search" id="search-input" class="search-input" onsearch="search()" placeholder="Search...">
-        <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+	<form method="get" onsubmit="search(event)">
+        <input type="search" id="search-input" class="search-input" onsearch="search(event)" placeholder="Search...">
+        <input type="submit" id="search-submit" class="search-submit">
     </form>`;
 
 document.querySelector('.search-container').insertAdjacentHTML('beforeend', search_bar);
@@ -21,7 +21,8 @@ document.querySelector('.search-container').insertAdjacentHTML('beforeend', sear
 /*
  *  Search Bar Function
  */
-function search() {
+function search(event) {
+	event.preventDefault()
   // Declare variables
   let input, filter, employee, searchCritera;
   input = document.getElementById('search-input');
@@ -88,6 +89,20 @@ function changeModal(e) {
 }
 
 /*==========================================================================
+--------------------------------  Fetch API  -------------------------------
+============================================================================*/
+/*
+ *  Fetch imformation from Random Use Api
+ *  request the following:
+ *  -12 results
+ *  -Australian Nationality
+ *  -Picture, name, email, location, cell (mobile phone), date of birth
+ */
+fetch('https://randomuser.me/api/?results=12&nat=au&inc=picture,name,email,location,cell,dob')
+  .then(response => response.json())
+  .then(data => createEmployeeDirectory(data.results))
+
+/*==========================================================================
 ------------------------- Create Employee Directory  -----------------------
 ============================================================================*/
 /*
@@ -102,18 +117,3 @@ function createEmployeeDirectory(data) {
 	document.querySelector('.modal-btn-container').addEventListener('click', changeModal)
 	gallery.addEventListener('click', e => galleryClick(e));
 }
-
-
-/*==========================================================================
---------------------------------  Fetch API  -------------------------------
-============================================================================*/
-/*
- *  Fetch imformation from Random Use Api
- *  request the following:
- *  -12 results
- *  -Australian Nationality
- *  -Picture, name, email, location, cell (mobile phone), date of birth
- */
-fetch('https://randomuser.me/api/?results=12&nat=au&inc=picture,name,email,location,cell,dob')
-  .then(response => response.json())
-  .then(data => createEmployeeDirectory(data.results))
